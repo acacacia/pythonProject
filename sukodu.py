@@ -24,9 +24,6 @@ def show(su):
         index += 1
 
 
-show(sudoku)
-
-
 # 行转列
 def category(su):
     f = [i for i in range(9)]
@@ -56,7 +53,7 @@ def category2(su):
         while c < 3:
             temp = []
             while x < 3:
-                temp += su[x+n][index:index + 3]
+                temp += su[x + n][index:index + 3]
                 x += 1
             res[flag] = temp
             flag += 1
@@ -71,6 +68,18 @@ def category2(su):
     return res
 
 
+def isNull(arr):
+    i = 0
+    res = []
+    while i < len(arr):
+        if arr[i] != ' ':
+            res += arr[i]
+        i += 1
+    return res
 
 
-show(category2(sudoku))
+value = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+convert = category(sudoku)
+grid = category2(sudoku)
+
+print(set(isNull(sudoku[0]) + isNull(convert[0]) + isNull(grid[0])))
