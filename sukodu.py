@@ -1,4 +1,6 @@
-sudoku = [
+import this
+
+sudoku1 = [
     [' ', '4', '1', ' ', '5', '2', ' ', '8', ' '],
     [' ', ' ', '7', '3', ' ', ' ', ' ', ' ', '6'],
     ['3', '8', ' ', ' ', '6', '4', ' ', '2', ' '],
@@ -8,6 +10,18 @@ sudoku = [
     [' ', '3', ' ', '8', '1', ' ', ' ', '7', '9'],
     ['8', ' ', ' ', ' ', ' ', '5', '3', ' ', ' '],
     [' ', '7', ' ', '2', '9', ' ', '8', '5', ' ']
+]
+
+sudoku2 = [
+    [' ', ' ', ' ', '7', ' ', ' ', '3', ' ', ' '],
+    [' ', '3', ' ', '2', '4', ' ', '1', ' ', ' '],
+    ['8', ' ', '6', ' ', '3', ' ', ' ', ' ', '2'],
+    [' ', ' ', '9', '1', ' ', ' ', ' ', '2', ' '],
+    ['1', '4', ' ', ' ', '9', ' ', ' ', '5', '6'],
+    [' ', '5', ' ', ' ', ' ', '6', '9', ' ', ' '],
+    ['3', ' ', ' ', ' ', '2', ' ', '6', ' ', '1'],
+    [' ', ' ', '4', ' ', '1', '7', ' ', '3', ' '],
+    [' ', ' ', '2', ' ', ' ', '4', ' ', ' ', ' ']
 ]
 
 
@@ -111,25 +125,69 @@ def numForNull(arr):
     return le
 
 
-value = {'1', '2', '3', '4', '5', '6', '7', '8', '9'}
-convert = category(sudoku)
-grid = category2(sudoku)
-show(sudoku)
-count = 0
+sudoku = sudoku2
 
-sulen = numForNull(sudoku)
 
-while True:
-    if count == sulen:
-        break
-    for i in range(len(sudoku)):
+def primary(su):
+    value = {'1', '2', '3', '4', '5', '6', '7', '8', '9'}
+    convert = category(su)
+    grid = category2(su)
+    count = 0
+    sulen = numForNull(su)
+    while True:
+        if count == sulen:
+            break
+        for i in range(len(su)):
+            for j in range(len(convert)):
+                if su[i][j] == ' ':
+                    res = value - (set(isNotNull(su[i]) + isNotNull(convert[j]) + isNotNull(grid[position(i, j)])))
+                    if len(res) == 1:
+                        su[i][j] = list(res)[0]
+                        convert = category(su)
+                        grid = category2(su)
+                        count += 1
+    return su
+
+
+def intermediate(su):
+    value = {'1', '2', '3', '4', '5', '6', '7', '8', '9'}
+    convert = category(su)
+    grid = category2(su)
+    count = 0
+    sulen = numForNull(su)
+    dic = {}
+    key = []
+    for i in range(len(su)):
         for j in range(len(convert)):
-            if sudoku[i][j] == ' ':
-                res = value - (set(isNotNull(sudoku[i]) + isNotNull(convert[j]) + isNotNull(grid[position(i, j)])))
+            if su[i][j] == ' ':
+                res = value - (set(isNotNull(su[i]) + isNotNull(convert[j]) + isNotNull(grid[position(i, j)])))
                 if len(res) == 1:
-                    sudoku[i][j] = list(res)[0]
-                    convert = category(sudoku)
-                    grid = category2(sudoku)
+                    su[i][j] = list(res)[0]
+                    convert = category(su)
+                    grid = category2(su)
                     count += 1
+                else:
+                    dic[(i, j)] = res
+                    key += (i, j),
 
-show(sudoku)
+    index = 2
+    keyN = []
+    while True:
+        if len(keyN) == len(key):
+            break
+        for i in key:
+            if len(dic[i]) == index:
+                keyN += i,
+        index += 1
+    'su[keyN[0][0]][keyN[0][1]] = dic[keyN[0]]'
+
+    for i in keyN:
+        for j in dic[i]:
+            su[i[0]][i[1]] = j
+            show(su)
+            intermediate(su)
+
+
+intermediate(sudoku)
+
+
